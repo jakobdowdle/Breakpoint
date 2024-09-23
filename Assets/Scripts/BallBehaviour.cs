@@ -45,5 +45,11 @@ public class BallBehaviour : MonoBehaviour
             _velocity.y *= -1;
         }
 
+        //Checks if the ball went below bottom of screen
+        if (((transform.position.y - transform.localScale.y / 2) < _paddle.MinPositionX.transform.position.y))
+        {
+            GameManager.Instance.BallOutOfBounds(gameObject);
+        }
+
     }
 }
