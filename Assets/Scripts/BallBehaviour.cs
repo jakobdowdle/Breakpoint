@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class BallBehaviour : MonoBehaviour
@@ -16,24 +17,27 @@ public class BallBehaviour : MonoBehaviour
         _paddle = PaddleController.Instance;
         transform.position += new Vector3(_velocity.x, _velocity.y * _verticalSpeed) * Time.deltaTime;
 
-        if ((transform.position.x + transform.localScale.x /2 >=
-            _paddle.transform.position.x - _paddle.transform.localScale.x / 2f)
-            && 
-            (transform.position.x - transform.localScale.x /2 <=
-            _paddle.transform.position.x + _paddle.transform.localScale.x / 2f)
-            && 
-            (transform.position.y + transform.localScale.y /2 >=
-            _paddle.transform.position.y - _paddle.transform.localScale.y / 2f)
-            &&
-            (transform.position.y - transform.localScale.y /2 <=
-            _paddle.transform.position.y + _paddle.transform.localScale.y / 2f))
+        if (CollidesWithGameObject(PaddleController.Instance.gameObject))
         {
-
             _velocity.y *= -1;
             float random = Random.Range(-_maxHorizontalSpeed, _maxHorizontalSpeed);
             print(random);
-            _velocity.x = random;
         }
+        for(int i = 0; i < GameManager.Instance.Bricks.Length; i++)
+        {
+            if (GameManager.Instance.Bricks[i] != null && CollidesWithGameObject(GameManager.Instance.Bricks[i]))
+            {
+                Destroy(GameManager.Instance.Bricks[i]);
+                GameManager.Instance.Bricks[i] = null;
+                float random = Random.Range(-_maxHorizontalSpeed, _maxHorizontalSpeed);
+                print(random);
+                _velocity.x = random;
+                _velocity.y = -_velocity.y;
+                GameManager.Instance.CheckForWin();
+                break;
+            }
+        }
+
 
         if (((transform.position.x - transform.localScale.x /2) <= _paddle.MinPositionX.transform.position.x)
             ||
@@ -51,5 +55,21 @@ public class BallBehaviour : MonoBehaviour
             GameManager.Instance.BallOutOfBounds(gameObject);
         }
 
+    }
+
+    private bool CollidesWithGameObject(GameObject other)
+    {
+        return
+        ((transform.position.x + transform.localScale.x / 2 >=
+        other.transform.position.x - other.transform.localScale.x / 2f)
+        &&
+        (transform.position.x - transform.localScale.x / 2 <=
+        other.transform.position.x + other.transform.localScale.x / 2f)
+        &&
+        (transform.position.y + transform.localScale.y / 2 >=
+        other.transform.position.y - other.transform.localScale.y / 2f)
+        &&
+        (transform.position.y - transform.localScale.y / 2 <=
+        other.transform.position.y + other.transform.localScale.y / 2f));
     }
 }

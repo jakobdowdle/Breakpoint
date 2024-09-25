@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
 
     public GameObject BallPrefab;
+    public GameObject[] Bricks;
     public float RespawnTimer;
     [HideInInspector] public bool GameRunning;
     [SerializeField] private GameObject _failedPanel;
@@ -41,6 +42,16 @@ public class GameManager : MonoBehaviour
             GameRunning = false;
             _failedPanel.SetActive(true);
         }
+    }
+
+    public void CheckForWin()
+    {
+        foreach(GameObject brick in Bricks)
+        {
+            if (brick != null) return;
+        }
+
+        Debug.LogWarning("HURRAY BUDDY!");
     }
 
     private IEnumerator WaitAndRespawn()
