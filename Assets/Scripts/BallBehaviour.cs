@@ -22,6 +22,7 @@ public class BallBehaviour : MonoBehaviour
             _velocity.y *= -1;
             float random = Random.Range(-_maxHorizontalSpeed, _maxHorizontalSpeed);
             print(random);
+            _velocity.x = random;
         }
         for(int i = 0; i < GameManager.Instance.Bricks.Length; i++)
         {

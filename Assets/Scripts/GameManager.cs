@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     public float RespawnTimer;
     [HideInInspector] public bool GameRunning;
     [SerializeField] private GameObject _failedPanel;
+    [SerializeField] private GameObject _victoryPanel;
     [SerializeField] private TextMeshProUGUI _ballText;
     [SerializeField, Range(0,15)] private int _totalRespawns;
     private int _respawnCount;
@@ -20,6 +21,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         _failedPanel.SetActive(false);
+        _victoryPanel.SetActive(false);
         GameRunning = true;
         Instance = this;
         Instantiate(BallPrefab);
@@ -51,7 +53,8 @@ public class GameManager : MonoBehaviour
             if (brick != null) return;
         }
 
-        Debug.LogWarning("HURRAY BUDDY!");
+        _victoryPanel.SetActive(true);
+        GameRunning = false;
     }
 
     private IEnumerator WaitAndRespawn()
