@@ -20,6 +20,8 @@ public class PaddleController : MonoBehaviour
     }
     void Update()
     {
+        if (!GameManager.Instance.GameRunning) return;
+
         if (Input.GetKey(KeyCode.LeftArrow)
             && transform.position.x - StartScale.x / 2f > MinPositionX.transform.position.x)
             transform.position += Vector3.left * Time.deltaTime * Speed;
