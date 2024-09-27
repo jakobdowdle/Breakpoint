@@ -20,9 +20,8 @@ public class BallBehaviour : MonoBehaviour
         if (CollidesWithGameObject(PaddleController.Instance.gameObject))
         {
             _velocity.y *= -1;
-            float random = Random.Range(-_maxHorizontalSpeed, _maxHorizontalSpeed);
-            print(random);
-            _velocity.x = random;
+            Vector3 paddleToBall = transform.position - PaddleController.Instance.gameObject.transform.position;
+            _velocity.x = paddleToBall.x * _maxHorizontalSpeed;
         }
         for(int i = 0; i < GameManager.Instance.Bricks.Length; i++)
         {
@@ -34,7 +33,7 @@ public class BallBehaviour : MonoBehaviour
                 print(random);
                 _velocity.x = random;
                 _velocity.y = -_velocity.y;
-                GameManager.Instance.CheckForWin();
+                GameManager.Instance.CheckForWin(gameObject);
                 break;
             }
         }

@@ -46,15 +46,15 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void CheckForWin()
+    public void CheckForWin(GameObject ball)
     {
         foreach(GameObject brick in Bricks)
         {
             if (brick != null) return;
         }
-
-        _victoryPanel.SetActive(true);
+        Destroy(ball);
         GameRunning = false;
+        _victoryPanel.SetActive(true);
     }
 
     private IEnumerator WaitAndRespawn()
